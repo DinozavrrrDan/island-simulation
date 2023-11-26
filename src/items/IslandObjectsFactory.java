@@ -1,4 +1,4 @@
-package items.animal;
+package items;
 
 import items.IslandObject;
 import items.IslandObjectType;
