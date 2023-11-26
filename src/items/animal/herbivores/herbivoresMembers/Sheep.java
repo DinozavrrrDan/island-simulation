@@ -6,7 +6,7 @@ import items.animal.herbivores.Herbivore;
 public class Sheep extends Herbivore {
 
     public Sheep() {
-        super(70, 140, 3, 15);
+        super(70, 140, 3, 15, "");
     }
 
     @Override

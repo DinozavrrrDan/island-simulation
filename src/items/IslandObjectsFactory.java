@@ -1,28 +1,75 @@
 package items;
 
-import items.IslandObject;
-import items.IslandObjectType;
+import annotations.Property;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import items.animal.herbivores.herbivoresMembers.*;
-import items.animal.сarnivores.сarnivoresMembers.*;
+import items.animal.carnivores.carnivoresMembers.*;
 import items.plant.plantsMembers.Grass;
+import lombok.SneakyThrows;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class IslandObjectsFactory {
 
     public static final String CURRENT_PATH = "items";
-    private Map<Class, Constructor<? extends IslandObjectType>> islandObjectsMap = new HashMap<>();
+    public static final String PROPERTY_PATH = "src/models/animals.properties";
+    private Map<Class, Object> islandObjectsMap = new HashMap<>();
 
+    @SneakyThrows
     public void initIslandObjectsMap() {
-        Set<Class> allClassesFromMtPackage = findAllClassesUsingClassLoader(CURRENT_PATH);
-        System.out.println();
+        Properties properties = new Properties();
+        try (FileReader reader = new FileReader(PROPERTY_PATH)) {
+            properties.load(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Set<Class<?>> allClassesFromMtPackage = findAllClassesUsingClassLoader(CURRENT_PATH);
+
+        for (Class<?> aClass : allClassesFromMtPackage) {
+            Annotation islandObjectAnnotation = aClass.getAnnotation(annotations.IslandObject.class);
+            if (islandObjectAnnotation == null){
+                continue;
+            }
+            String islandObjectName = ((annotations.IslandObject) islandObjectAnnotation).name();
+            System.out.println(islandObjectName);
+
+            Class<?> parentClass = aClass.getSuperclass();
+            Class<?> animalClass = parentClass.getSuperclass();
+
+            Field[] parentClassFields = animalClass.getDeclaredFields();
+
+            List<String> propertiesValues = Arrays.stream(parentClassFields)
+                    .filter(parentClassField -> parentClassField.isAnnotationPresent(Property.class))
+                    .map(IslandObjectsFactory::getPropertyName)
+                    .map(propertyName -> islandObjectName + '.' + propertyName)
+                    .filter(el->el.startsWith(islandObjectName))
+                    .sorted()
+                    .toList();
+
+                Constructor<?> constructor = aClass.getDeclaredConstructor(double.class, int.class, int.class, double.class, String.class);
+                Double weight = Double.valueOf((String) properties.get(propertiesValues.get(4)));
+                Integer maxOnSquare = Integer.valueOf((String) properties.get(propertiesValues.get(1)));
+                Integer speed = Integer.valueOf((String) properties.get(propertiesValues.get(2)));
+                Double enoughFoodForFullSaturation = Double.valueOf((String) properties.get(propertiesValues.get(0)));
+                String unicode = String.valueOf(properties.get(propertiesValues.get(3)));
+                islandObjectsMap.put(aClass, constructor.newInstance(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode));
+        }
+
+    }
+
+    private static String getPropertyName(Field parentClassField) {
+        Annotation propertyAnnotation = parentClassField.getAnnotation(Property.class);
+        String propertyName = ((Property) propertyAnnotation).propertyName();
+        return propertyName;
     }
 
     public IslandObject createIslandObject(IslandObjectType islandObjectIslandObjectType) {
@@ -35,7 +82,7 @@ public class IslandObjectsFactory {
 
             case BUFFALO -> new Buffalo();
             case CATERPILLAR -> new Caterpillar();
-            case DEER -> new Deer();
+            case DEER -> (Deer) islandObjectsMap.get(Deer.class);
             case DUCK -> new Duck();
             case GOAT -> new Goat();
             case HORSE -> new Horse();
@@ -47,18 +94,33 @@ public class IslandObjectsFactory {
         };
     }
 
-    private Set<Class> findAllClassesUsingClassLoader(String packageName) {
-        InputStream stream = ClassLoader.getSystemClassLoader()
-                .getResourceAsStream( packageName.replaceAll("[.]", "/"));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        var classes = reader.lines()
+    private Set<Class<?>> findAllClassesUsingClassLoader(String packageName) {
+        var classReader = getPackageBufferedReader(packageName);
+        var classes = classReader.lines()
                 .filter(line -> line.endsWith(".class"))
                 .map(line -> getClass(line, packageName))
                 .collect(Collectors.toSet());
-        return classes;
+
+        var packageReader = getPackageBufferedReader(packageName);
+        var packages = packageReader.lines()
+                .filter(line -> !line.endsWith(".class"))
+                .map(line -> findAllClassesUsingClassLoader(packageName + '.' + line))
+                .collect(Collectors.toSet());
+
+        var totalClasses = packages.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+        totalClasses.addAll(classes);
+        return totalClasses;
     }
 
-    private Class getClass(String className, String packageName) {
+    private BufferedReader getPackageBufferedReader(String packageName) {
+        InputStream stream = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream(packageName.replaceAll("[.]", "/"));
+        return new BufferedReader(new InputStreamReader(stream));
+    }
+
+    private Class<?> getClass(String className, String packageName) {
         try {
             return Class.forName(packageName + "."
                     + className.substring(0, className.lastIndexOf('.')));

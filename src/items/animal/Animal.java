@@ -17,29 +17,30 @@ public abstract class Animal extends IslandObject {
 
     public static final int BOUND = 100;
 
-    @Property(propertyName = "weight")
+    @Property(propertyName = "weight", priority = 1)
     private double weight;
-    @Property(propertyName = "maxOnSquare")
+    @Property(propertyName = "maxOnSquare", priority = 2)
     private int maxOnSquare;
-    @Property(propertyName = "speed")
+    @Property(propertyName = "speed", priority = 3)
     private int speed;
-    @Property(propertyName = "enoughFoodForFullSaturation")
+    @Property(propertyName = "enoughFoodForFullSaturation", priority = 4)
     private double enoughFoodForFullSaturation;
-    @Property(propertyName = "unicode")
+    @Property(propertyName = "unicode", priority = 5)
     private String unicode;
     private double healthPoints;
 
 
-    protected Animal(double weight, int maxOnSquare, int speed, double healthPoints) {
+    protected Animal(double weight, int maxOnSquare, int speed, double healthPoints, String unicode) {
         this.weight = weight;
         this.maxOnSquare = maxOnSquare;
         this.speed = speed;
         this.enoughFoodForFullSaturation = healthPoints;
-        this.unicode = "";
+        this.unicode = unicode;
         this.healthPoints = healthPoints;
     }
 
     public abstract Animal reproduce();
+
     public void eat(IslandObject food) {
         if (food.getWeight() >= this.getEnoughFoodForFullSaturation()) {
             this.setHealthPoints(this.getEnoughFoodForFullSaturation());

@@ -2,7 +2,7 @@ package island;
 
 import items.IslandObject;
 import items.IslandObjectType;
-import items.animal.IslandObjectsFactory;
+import items.IslandObjectsFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,27 +25,27 @@ public class IslandMap {
     }
     
     public void init(){
+        for (int coordinateY = 0; coordinateY < height; coordinateY++) {
         for (int coordinateX = 0; coordinateX < width; coordinateX++) {
-            for (int coordinateY = 0; coordinateY < height; coordinateY++) {
-                locations[coordinateX][coordinateY] = new Location(coordinateX, coordinateY);
+                locations[coordinateY][coordinateX] = new Location(coordinateX, coordinateY);
             }
         }
     }
 
     public void fill(int maxIslandObjectCount){
-        for (int coordinateX = 0; coordinateX < width; coordinateX++) {
-            for (int coordinateY = 0; coordinateY < height; coordinateY++) {
+        for (int coordinateY = 0; coordinateY < height; coordinateY++) {
+            for (int coordinateX = 0; coordinateX < width; coordinateX++) {
                 for (int i = 0; i < maxIslandObjectCount; i++) {
                     IslandObject islandObject = getRandomIslandObject();
 
                     var islandObjectAsString = islandObject.getClass().getSimpleName();
-                    var islandObjectCountOnLocation = locations[coordinateX][coordinateY]
+                    var islandObjectCountOnLocation = locations[coordinateY][coordinateX]
                             .getIslandObjetsCount()
                             .getOrDefault(islandObjectAsString, 0);
                     if (islandObjectCountOnLocation >= islandObject.getMaxOnSquare()){
                         continue;
                     }
-                    locations[coordinateX][coordinateY].addIslandObject(islandObject);
+                    locations[coordinateY][coordinateX].addIslandObject(islandObject);
 
                 }
             }
