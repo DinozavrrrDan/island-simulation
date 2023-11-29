@@ -55,13 +55,13 @@ public class IslandObjectsFactory {
                     .sorted()
                     .toList();
 
-                Constructor<?> constructor = aClass.getDeclaredConstructor(double.class, int.class, int.class, double.class, String.class);
-                Double weight = Double.valueOf((String) properties.get(propertiesValues.get(4)));
-                Integer maxOnSquare = Integer.valueOf((String) properties.get(propertiesValues.get(1)));
-                Integer speed = Integer.valueOf((String) properties.get(propertiesValues.get(2)));
-                Double enoughFoodForFullSaturation = Double.valueOf((String) properties.get(propertiesValues.get(0)));
-                String unicode = String.valueOf(properties.get(propertiesValues.get(3)));
-                islandObjectsMap.put(aClass, constructor.newInstance(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode));
+            Constructor<?> constructor = aClass.getDeclaredConstructor(double.class, int.class, int.class, double.class, String.class);
+            Double weight = Double.valueOf((String) properties.get(propertiesValues.get(4)));
+            Integer maxOnSquare = Integer.valueOf((String) properties.get(propertiesValues.get(1)));
+            Integer speed = Integer.valueOf((String) properties.get(propertiesValues.get(2)));
+            Double enoughFoodForFullSaturation = Double.valueOf((String) properties.get(propertiesValues.get(0)));
+            String unicode = String.valueOf(properties.get(propertiesValues.get(3)));
+            islandObjectsMap.put(aClass, constructor.newInstance(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode));
         }
 
     }
@@ -74,21 +74,22 @@ public class IslandObjectsFactory {
 
     public IslandObject createIslandObject(IslandObjectType islandObjectIslandObjectType) {
         return switch (islandObjectIslandObjectType) {
-            case WOLF -> new Wolf();
-            case BEAR -> new Bear();
-            case EAGLE -> new Eagle();
-            case FOX -> new Fox();
-            case HOG -> new Hog();
+            case WOLF -> (Wolf) islandObjectsMap.get(Wolf.class);
+            case BOA -> (Boa) islandObjectsMap.get(Boa.class);
+            case BEAR -> (Bear) islandObjectsMap.get(Bear.class);
+            case EAGLE -> (Eagle) islandObjectsMap.get(Eagle.class);
+            case FOX -> (Fox) islandObjectsMap.get(Fox.class);
+            case HOG -> (Hog) islandObjectsMap.get(Hog.class);
 
-            case BUFFALO -> new Buffalo();
-            case CATERPILLAR -> new Caterpillar();
+            case BUFFALO -> (Buffalo) islandObjectsMap.get(Buffalo.class);
+            case CATERPILLAR -> (Caterpillar) islandObjectsMap.get(Caterpillar.class);
             case DEER -> (Deer) islandObjectsMap.get(Deer.class);
-            case DUCK -> new Duck();
-            case GOAT -> new Goat();
-            case HORSE -> new Horse();
-            case MOUSE -> new Mouse();
-            case RABBIT -> new Rabbit();
-            case SHEEP -> new Sheep();
+            case DUCK -> (Duck) islandObjectsMap.get(Duck.class);
+            case GOAT -> (Goat) islandObjectsMap.get(Goat.class);
+            case HORSE -> (Horse) islandObjectsMap.get(Horse.class);
+            case MOUSE -> (Mouse) islandObjectsMap.get(Mouse.class);
+            case RABBIT -> (Rabbit) islandObjectsMap.get(Rabbit.class);
+            case SHEEP -> (Sheep) islandObjectsMap.get(Sheep.class);
 
             case GRASS -> new Grass();
         };

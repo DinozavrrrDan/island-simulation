@@ -1,13 +1,10 @@
 package items;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
 public enum IslandObjectType {
     WOLF(""),
     BEAR(""),
+    BOA(""),
     EAGLE(""),
     FOX(""),
     HOG(""),
@@ -22,4 +19,8 @@ public enum IslandObjectType {
     SHEEP(""),
     GRASS("");
     private final String unicodeSymbol;
+
+    IslandObjectType(String unicodeSymbol) {
+        this.unicodeSymbol = unicodeSymbol;
+    }
 }
