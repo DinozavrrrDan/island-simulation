@@ -6,7 +6,7 @@ import items.animal.carnivores.Carnivore;
 
 @IslandObject(name = "eagle")
 public class Eagle extends Carnivore {
-    public Eagle(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    public Eagle(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

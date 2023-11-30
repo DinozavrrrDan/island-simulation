@@ -58,4 +58,13 @@ public class IslandMap {
                 current().nextInt( islandObjectTypes.length)];
         return islandObjectsFactory.createIslandObject(islandObjectType);
     }
+
+    public Runnable createPlantGrow(){
+        return () -> {
+            int coordinateX = ThreadLocalRandom.current().nextInt(getWidth());
+            int coordinateY = ThreadLocalRandom.current().nextInt(getHeight());
+            Location location = locations[coordinateY][coordinateX];
+            location.addIslandObject(islandObjectsFactory.createIslandObject(IslandObjectType.GRASS));
+        };
+    }
 }

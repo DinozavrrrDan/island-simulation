@@ -6,7 +6,7 @@ import items.animal.carnivores.Carnivore;
 
 @IslandObject(name = "bear")
 public class Bear extends Carnivore {
-    public Bear(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    public Bear(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

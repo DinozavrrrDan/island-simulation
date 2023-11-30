@@ -4,32 +4,37 @@ wolf:
   maxOnSquare: 30
   speed: 3
   enoughFoodForFullSaturation: 8
-  unicode:
+  unicode: ""
 bao:
   weight: 15
   maxOnSquare: 30
   speed: 1
   enoughFoodForFullSaturation: 2
+  unicode: ""
 fox:
   weight: 8
   maxOnSquare: 30
   speed: 2
   enoughFoodForFullSaturation: 2
+  unicode: ""
 bear:
   weight: 500
   maxOnSquare: 5
   speed: 2
   enoughFoodForFullSaturation: 80
+  unicode: ""
 eagle:
   weight: 6
   maxOnSquare: 20
   speed: 3
   enoughFoodForFullSaturation: 1
+  unicode: ""
 horse:
   weight: 400
   maxOnSquare: 20
   speed: 4
   enoughFoodForFullSaturation: 60
+  unicode: ""
 deer:
   weight: 300
   maxOnSquare: 20
@@ -41,44 +46,53 @@ rabbit:
   maxOnSquare: 150
   speed: 2
   enoughFoodForFullSaturation: 0.45
+  unicode: ""
 mouse:
   weight: 0.05
   maxOnSquare: 500
   speed: 1
   enoughFoodForFullSaturation: 0.01
+  unicode: ""
 goat:
   weight: 60
   maxOnSquare: 140
   speed: 3
   enoughFoodForFullSaturation: 15
+  unicode: ""
 sheep:
   weight: 70
   maxOnSquare: 140
   speed: 3
   enoughFoodForFullSaturation: 15
+  unicode: ""
 hog:
   weight: 400
   maxOnSquare: 50
   speed: 2
   enoughFoodForFullSaturation: 50
+  unicode: ""
 buffalo:
   weight: 700
   maxOnSquare: 10
   speed: 3
   enoughFoodForFullSaturation: 100
+  unicode: ""
 duck:
   weight: 1
   maxOnSquare: 200
   speed: 4
   enoughFoodForFullSaturation: 0.15
+  unicode: ""
 caterpillar:
   weight: 0.01
   maxOnSquare: 1000
   speed: 0
   enoughFoodForFullSaturation: 0
+  unicode: ""
 grass:
   weight: 1
   maxOnSquare: 200
+  unicode: ""
 
 
 

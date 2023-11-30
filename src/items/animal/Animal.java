@@ -1,36 +1,40 @@
 package items.animal;
 
+import annotations.Parent;
 import annotations.Property;
 import items.IslandObject;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
 @Setter
+@Parent
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Animal extends IslandObject {
 
     public static final int BOUND = 100;
 
-    @Property(propertyName = "weight", priority = 1)
-    private double weight;
-    @Property(propertyName = "maxOnSquare", priority = 2)
-    private int maxOnSquare;
-    @Property(propertyName = "speed", priority = 3)
-    private int speed;
-    @Property(propertyName = "enoughFoodForFullSaturation", priority = 4)
-    private double enoughFoodForFullSaturation;
-    @Property(propertyName = "unicode", priority = 5)
+    @Property(propertyName = "weight", priority = 0, type = "Double")
+    private Double weight;
+    @Property(propertyName = "maxOnSquare", priority = 1, type = "Integer")
+    private Integer maxOnSquare;
+    @Property(propertyName = "speed", priority = 2, type = "Integer")
+    private Integer speed;
+    @Property(propertyName = "enoughFoodForFullSaturation", priority = 3, type = "Double")
+    private Double enoughFoodForFullSaturation;
+    @Property(propertyName = "unicode", priority = 4, type = "String")
     private String unicode;
-    private double healthPoints;
+    @JsonIgnore
+    private Double healthPoints;
 
 
-    protected Animal(double weight, int maxOnSquare, int speed, double healthPoints, String unicode) {
+    protected Animal(Double weight, Integer maxOnSquare, Integer speed, Double healthPoints, String unicode) {
         this.weight = weight;
         this.maxOnSquare = maxOnSquare;
         this.speed = speed;

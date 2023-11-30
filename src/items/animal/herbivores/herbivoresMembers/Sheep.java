@@ -8,7 +8,7 @@ import items.animal.herbivores.Herbivore;
 
 public class Sheep extends Herbivore {
 
-    public Sheep(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    public Sheep(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 
 public abstract class Herbivore extends Animal {
-    protected Herbivore(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    protected Herbivore(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

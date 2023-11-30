@@ -9,7 +9,7 @@ import javax.swing.*;
 @IslandObject(name = "deer")
 public class Deer extends Herbivore {
 
-    public Deer(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    public Deer(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

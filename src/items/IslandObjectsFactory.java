@@ -1,5 +1,6 @@
 package items;
 
+import annotations.Parent;
 import annotations.Property;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -7,6 +8,7 @@ import items.animal.herbivores.herbivoresMembers.*;
 import items.animal.carnivores.carnivoresMembers.*;
 import items.plant.plantsMembers.Grass;
 import lombok.SneakyThrows;
+import simulation.SimulationSettings;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
@@ -21,7 +23,8 @@ public class IslandObjectsFactory {
 
     public static final String CURRENT_PATH = "items";
     public static final String PROPERTY_PATH = "src/models/animals.properties";
-    private Map<Class, Object> islandObjectsMap = new HashMap<>();
+    public static final String DOT = ".";
+    private final Map<Class<?>, Object> islandObjectsMap = new HashMap<>();
 
     @SneakyThrows
     public void initIslandObjectsMap() {
@@ -35,61 +38,84 @@ public class IslandObjectsFactory {
         Set<Class<?>> allClassesFromMtPackage = findAllClassesUsingClassLoader(CURRENT_PATH);
 
         for (Class<?> aClass : allClassesFromMtPackage) {
-            Annotation islandObjectAnnotation = aClass.getAnnotation(annotations.IslandObject.class);
-            if (islandObjectAnnotation == null){
+            //проверка помечен ли класс аннотацией
+            annotations.IslandObject islandObjectAnnotation = getIslandObject(aClass);
+            if (islandObjectAnnotation == null) {
                 continue;
             }
-            String islandObjectName = ((annotations.IslandObject) islandObjectAnnotation).name();
-            System.out.println(islandObjectName);
 
-            Class<?> parentClass = aClass.getSuperclass();
-            Class<?> animalClass = parentClass.getSuperclass();
+            Class<?> parentClass = getParentClass(aClass);
 
-            Field[] parentClassFields = animalClass.getDeclaredFields();
-
-            List<String> propertiesValues = Arrays.stream(parentClassFields)
+            var annotationParentClassFields = Arrays.stream(parentClass.getDeclaredFields())
                     .filter(parentClassField -> parentClassField.isAnnotationPresent(Property.class))
-                    .map(IslandObjectsFactory::getPropertyName)
-                    .map(propertyName -> islandObjectName + '.' + propertyName)
-                    .filter(el->el.startsWith(islandObjectName))
-                    .sorted()
                     .toList();
 
-            Constructor<?> constructor = aClass.getDeclaredConstructor(double.class, int.class, int.class, double.class, String.class);
-            Double weight = Double.valueOf((String) properties.get(propertiesValues.get(4)));
-            Integer maxOnSquare = Integer.valueOf((String) properties.get(propertiesValues.get(1)));
-            Integer speed = Integer.valueOf((String) properties.get(propertiesValues.get(2)));
-            Double enoughFoodForFullSaturation = Double.valueOf((String) properties.get(propertiesValues.get(0)));
-            String unicode = String.valueOf(properties.get(propertiesValues.get(3)));
+            SortedMap<Integer, String> fieldsMap = new TreeMap<>();
+            SortedMap<Integer, String> typesMap = new TreeMap<>();
+
+            for (Field field : annotationParentClassFields) {
+                fieldsMap.put(field.getAnnotation(Property.class).priority(), islandObjectAnnotation.name() + DOT + field.getAnnotation(Property.class).propertyName());
+                typesMap.put(field.getAnnotation(Property.class).priority(), field.getAnnotation(Property.class).type());
+            }
+            Class<?>[] constructorArray = new Class[annotationParentClassFields.size()];
+
+            for (int i = 0; i < fieldsMap.size(); i++) {
+                String type = typesMap.get(i);
+                Class<?> clazz = Class.forName("java.lang." + type);
+                constructorArray[i] = clazz;
+            }
+
+            var constructor = aClass.getDeclaredConstructor(constructorArray);
+
+            Double weight = Double.valueOf((String) properties.get(fieldsMap.get(0)));
+            Integer maxOnSquare = Integer.valueOf((String) properties.get(fieldsMap.get(1)));
+            Integer speed = Integer.valueOf((String) properties.get(fieldsMap.get(2)));
+            Double enoughFoodForFullSaturation = Double.valueOf((String) properties.get(fieldsMap.get(3)));
+            String unicode = String.valueOf(properties.get(fieldsMap.get(4)));
+
             islandObjectsMap.put(aClass, constructor.newInstance(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode));
         }
 
     }
 
+    private static annotations.IslandObject getIslandObject(Class<?> aClass) {
+        return aClass.getAnnotation(annotations.IslandObject.class);
+    }
+
+    private static Class<?> getParentClass(Class<?> aClass) {
+        Class<?> parentClass = aClass.getSuperclass();
+        while(!parentClass.isAnnotationPresent(Parent.class)){
+            parentClass = parentClass.getSuperclass();
+            if (parentClass == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+        return parentClass;
+    }
+
     private static String getPropertyName(Field parentClassField) {
-        Annotation propertyAnnotation = parentClassField.getAnnotation(Property.class);
-        String propertyName = ((Property) propertyAnnotation).propertyName();
-        return propertyName;
+        Property propertyAnnotation = parentClassField.getAnnotation(Property.class);
+        return propertyAnnotation.propertyName();
     }
 
     public IslandObject createIslandObject(IslandObjectType islandObjectIslandObjectType) {
         return switch (islandObjectIslandObjectType) {
-            case WOLF -> (Wolf) islandObjectsMap.get(Wolf.class);
-            case BOA -> (Boa) islandObjectsMap.get(Boa.class);
-            case BEAR -> (Bear) islandObjectsMap.get(Bear.class);
-            case EAGLE -> (Eagle) islandObjectsMap.get(Eagle.class);
-            case FOX -> (Fox) islandObjectsMap.get(Fox.class);
-            case HOG -> (Hog) islandObjectsMap.get(Hog.class);
+            case WOLF -> (Wolf) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case BOA -> (Boa) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case BEAR -> (Bear) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case EAGLE -> (Eagle) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case FOX -> (Fox) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case HOG -> (Hog) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
 
-            case BUFFALO -> (Buffalo) islandObjectsMap.get(Buffalo.class);
-            case CATERPILLAR -> (Caterpillar) islandObjectsMap.get(Caterpillar.class);
-            case DEER -> (Deer) islandObjectsMap.get(Deer.class);
-            case DUCK -> (Duck) islandObjectsMap.get(Duck.class);
-            case GOAT -> (Goat) islandObjectsMap.get(Goat.class);
-            case HORSE -> (Horse) islandObjectsMap.get(Horse.class);
-            case MOUSE -> (Mouse) islandObjectsMap.get(Mouse.class);
-            case RABBIT -> (Rabbit) islandObjectsMap.get(Rabbit.class);
-            case SHEEP -> (Sheep) islandObjectsMap.get(Sheep.class);
+            case BUFFALO -> (Buffalo) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case CATERPILLAR -> (Caterpillar) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case DEER -> (Deer) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case DUCK -> (Duck) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case GOAT -> (Goat) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case HORSE -> (Horse) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case MOUSE -> (Mouse) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case RABBIT -> (Rabbit) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
+            case SHEEP -> (Sheep) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());
 
             case GRASS -> new Grass();
         };
@@ -111,6 +137,7 @@ public class IslandObjectsFactory {
         var totalClasses = packages.stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
+
         totalClasses.addAll(classes);
         return totalClasses;
     }
@@ -123,10 +150,10 @@ public class IslandObjectsFactory {
 
     private Class<?> getClass(String className, String packageName) {
         try {
-            return Class.forName(packageName + "."
-                    + className.substring(0, className.lastIndexOf('.')));
+            return Class.forName(packageName + DOT
+                    + className.substring(0, className.lastIndexOf(DOT)));
         } catch (ClassNotFoundException e) {
-
+            e.printStackTrace();
         }
         return null;
     }

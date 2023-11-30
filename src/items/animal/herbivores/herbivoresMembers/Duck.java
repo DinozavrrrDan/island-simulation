@@ -7,7 +7,7 @@ import items.animal.herbivores.Herbivore;
 
 @IslandObject(name = "duck")
 public class Duck extends Herbivore {
-    public Duck(double weight, int maxOnSquare, int speed, double enoughFoodForFullSaturation, String unicode) {
+    public Duck(Double weight, Integer maxOnSquare, Integer speed, Double enoughFoodForFullSaturation, String unicode) {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 

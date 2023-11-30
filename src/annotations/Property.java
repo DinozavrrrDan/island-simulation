@@ -11,4 +11,6 @@ public @interface Property {
     String propertyName();
     String defaultValue() default "";
     int priority();
+
+    String type();
 }
