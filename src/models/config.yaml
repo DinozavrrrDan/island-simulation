@@ -3,3 +3,4 @@ heightMap: 100
 maxIslandObjectsOnLocation: 10
 simulationCycles: 50
 reduceHealthPercent: 10
+initialCorePoolSize: 3

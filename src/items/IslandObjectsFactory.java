@@ -38,7 +38,6 @@ public class IslandObjectsFactory {
         Set<Class<?>> allClassesFromMtPackage = findAllClassesUsingClassLoader(CURRENT_PATH);
 
         for (Class<?> aClass : allClassesFromMtPackage) {
-            //проверка помечен ли класс аннотацией
             annotations.IslandObject islandObjectAnnotation = getIslandObject(aClass);
             if (islandObjectAnnotation == null) {
                 continue;

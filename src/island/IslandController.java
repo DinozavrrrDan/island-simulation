@@ -17,4 +17,6 @@ public class IslandController {
         this.eatingMap = eatingMap;
         this.simulationSettings = simulationSettings;
     }
+
+
 }

@@ -23,7 +23,7 @@ public class ConfigReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Set : " + simulationSettings);
+        System.out.println("Set : " + simulationSettings.getHeightMap());
         return simulationSettings;
     }
 

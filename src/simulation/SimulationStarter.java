@@ -17,7 +17,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SimulationStarter {
-    public static final int POOL_SIZE = 3;
     private final SimulationSettings simulationSettings;
     private final IslandMap islandMap;
     private final IslandController controller;
@@ -25,22 +24,22 @@ public class SimulationStarter {
     private static ScheduledExecutorService executorService;
     private final StepService stepService;
 
-    private final UserDialog userDialog;
-
     public SimulationStarter() {
         this.stepService = new StepServiceImpl();
-        this.simulationSettings = new SimulationSettings();
-        this.userDialog = new UserDialog(simulationSettings);
+        UserDialog userDialog = new UserDialog();
+        this.simulationSettings = userDialog.initSettings();
         this.islandMap = new IslandMap(simulationSettings.getHeightMap(), simulationSettings.getWidthMap());
         this.controller = new IslandController(islandMap, null, simulationSettings);
 
-        executorService = Executors.newScheduledThreadPool(POOL_SIZE);
+        executorService = Executors.newScheduledThreadPool(simulationSettings.getInitialCorePoolSize());
     }
 
     public void start() {
-        userDialog.initSettings();
         controller.getMap().init();
         controller.getMap().fill(simulationSettings.getMaxIslandObjectsOnLocation());
+
+        executorService.scheduleWithFixedDelay(controller)
+
 
         for (int coordinateY = 0; coordinateY < islandMap.getHeight(); coordinateY++) {
             for (int coordinateX = 0; coordinateX < islandMap.getWidth(); coordinateX++) {
