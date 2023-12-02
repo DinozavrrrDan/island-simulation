@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class IslandObject {
-    private double weight;
-    private int maxOnSquare;
+    private Double weight;
+    private Integer maxOnSquare;
     private String unicode;
 }

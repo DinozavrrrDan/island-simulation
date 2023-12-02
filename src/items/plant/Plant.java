@@ -8,19 +8,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public abstract class Plant extends IslandObject {
 
-    private double weight;
-    private int maxOnSquare;
-    @Override
-    public int getMaxOnSquare() {
-        return super.getMaxOnSquare();
-    }
+    private Double weight;
+    private Integer maxOnSquare;
 
-    @Override
-    public double getWeight() {
-        return super.getWeight();
+    public Plant(Double weight, Integer maxOnSquare) {
+        this.weight = weight;
+        this.maxOnSquare = maxOnSquare;
     }
 }

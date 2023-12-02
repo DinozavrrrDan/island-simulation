@@ -1,8 +1,9 @@
-package simulation.service;
+package services.impl;
 
 import island.IslandMap;
 import island.Location;
 import items.animal.Animal;
+import services.StepService;
 
 public class StepServiceImpl implements StepService {
     public Location stepsLeft(Animal animal, Location location, IslandMap islandMap) {

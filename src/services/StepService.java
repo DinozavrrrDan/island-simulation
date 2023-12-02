@@ -1,4 +1,4 @@
-package simulation.service;
+package services;
 
 import island.IslandMap;
 import island.Location;

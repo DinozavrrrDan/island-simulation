@@ -92,11 +92,6 @@ public class IslandObjectsFactory {
         return parentClass;
     }
 
-    private static String getPropertyName(Field parentClassField) {
-        Property propertyAnnotation = parentClassField.getAnnotation(Property.class);
-        return propertyAnnotation.propertyName();
-    }
-
     public IslandObject createIslandObject(IslandObjectType islandObjectIslandObjectType) {
         return switch (islandObjectIslandObjectType) {
             case WOLF -> (Wolf) islandObjectsMap.get(islandObjectIslandObjectType.getAClass());

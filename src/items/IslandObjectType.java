@@ -41,5 +41,4 @@ public enum IslandObjectType {
     SHEEP(Sheep.class),
     GRASS(Grass.class);
     private final Class aClass;
-
 }

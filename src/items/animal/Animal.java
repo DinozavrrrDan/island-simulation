@@ -66,13 +66,9 @@ public abstract class Animal extends IslandObject {
                 .nextInt(Direction.values().length)];
     }
 
-    @Override
-    public double getWeight() {
-        return super.getWeight();
+    public boolean isAlive(){
+        return healthPoints > 0;
     }
 
-    @Override
-    public int getMaxOnSquare() {
-        return super.getMaxOnSquare();
-    }
+
 }

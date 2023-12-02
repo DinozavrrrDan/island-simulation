@@ -1,6 +1,7 @@
 package dialog;
 
-import services.ConfigReader;
+import services.YAMLReader;
+import services.impl.YAMLReaderImpl;
 import simulation.SimulationSettings;
 
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public class UserDialog {
         try (Scanner scanner = new Scanner(System.in)){
             System.out.println("Island simulation");
             System.out.println("If you want to configure settings push \" \" :");
-            ConfigReader configReader = new ConfigReader();
+            YAMLReader configReader = new YAMLReaderImpl();
             simulationSettings = configReader.readSimulationSettings();
         }
         System.out.println("Height: " + simulationSettings.getHeightMap());

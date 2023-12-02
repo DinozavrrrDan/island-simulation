@@ -11,8 +11,4 @@ public abstract class Herbivore extends Animal {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 
-    @Override
-    public void eat(IslandObject food) {
-
-    }
 }

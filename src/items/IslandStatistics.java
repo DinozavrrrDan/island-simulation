@@ -1,5 +1,6 @@
 package items;
 
+import island.IslandController;
 import island.IslandMap;
 import island.Location;
 import simulation.SimulationSettings;
@@ -11,44 +12,44 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class IslandStatistics {
 
-    private final SimulationSettings simulationSettings;
     private final IslandMap islandMap;
 
-    public IslandStatistics(SimulationSettings simulationSettings, IslandMap islandMap) {
-        this.simulationSettings = simulationSettings;
+    public IslandStatistics(IslandMap islandMap) {
         this.islandMap = islandMap;
     }
 
-    public Runnable createShowStatsTask(){
-        return () -> printStats(collectStatistics());
+    public Runnable createShowStatsTask() {
+        return () -> {
+            System.out.println("createShowStatsTask");
+            printStats(collectStatistics());
+        };
     }
 
     private Map<String, Integer> collectStatistics() {
+        System.out.println("collectStatistics");
         Map<String, Integer> islandObjectsStatistics = new ConcurrentHashMap<>();
 
         for (int y = 0; y < islandMap.getWidth(); y++) {
             for (int x = 0; x < islandMap.getHeight(); x++) {
-                Location location = islandMap.getLocations()[y][x];
-
-                List<IslandObject> islandObjects = location.getIslandObjects();
-
-                for (IslandObject islandObject : islandObjects) {
-                    String islandObjectString = islandObject.getClass().getSimpleName();
-                    String unicodeSymbol = "";
-
-                    islandObjectsStatistics.merge(unicodeSymbol, 1, (oldValue, newValue) -> oldValue + 1);
-                }
-
+                System.out.println("islandObjectsStatistics1");
+                System.out.println(islandObjectsStatistics);
+                islandMap.getLocations()[y][x]
+                        .getIslandObjects()
+                        .forEach(islandObject -> islandObjectsStatistics
+                                .merge(islandObject.getUnicode(), 1, (oldValue, newValue) -> oldValue + 1));
             }
+            System.out.println("islandObjectsStatistics2");
         }
         return islandObjectsStatistics;
     }
 
     private void printStats(Map<String, Integer> islandObjectsStatistics) {
-
+        System.out.println("printStats");
         System.out.println();
-
-        islandObjectsStatistics.forEach((key, value) -> System.out.println(MessageFormat.format("", key, value)));
+        System.out.println(MessageFormat.format("*** Tact {0} ***", IslandController.TACT_NUMBER));
+        islandObjectsStatistics
+                .forEach((key, value) -> System.out.println(MessageFormat.format("{0} - {1}", key, value)));
+        System.out.println('\n');
     }
 
 }

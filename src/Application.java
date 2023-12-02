@@ -1,5 +1,3 @@
-import services.ConfigReader;
-import simulation.SimulationSettings;
 import simulation.SimulationStarter;
 
 public class Application {

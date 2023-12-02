@@ -23,16 +23,16 @@ public class IslandMap {
         this.locations = new Location[height][width];
         islandObjectsFactory.initIslandObjectsMap();
     }
-    
-    public void init(){
+
+    public void init() {
         for (int coordinateY = 0; coordinateY < height; coordinateY++) {
-        for (int coordinateX = 0; coordinateX < width; coordinateX++) {
+            for (int coordinateX = 0; coordinateX < width; coordinateX++) {
                 locations[coordinateY][coordinateX] = new Location(coordinateX, coordinateY);
             }
         }
     }
 
-    public void fill(int maxIslandObjectCount){
+    public void fill(int maxIslandObjectCount) {
         for (int coordinateY = 0; coordinateY < height; coordinateY++) {
             for (int coordinateX = 0; coordinateX < width; coordinateX++) {
                 for (int i = 0; i < maxIslandObjectCount; i++) {
@@ -42,7 +42,7 @@ public class IslandMap {
                     var islandObjectCountOnLocation = locations[coordinateY][coordinateX]
                             .getIslandObjetsCount()
                             .getOrDefault(islandObjectAsString, 0);
-                    if (islandObjectCountOnLocation >= islandObject.getMaxOnSquare()){
+                    if (islandObjectCountOnLocation >= islandObject.getMaxOnSquare()) {
                         continue;
                     }
                     locations[coordinateY][coordinateX].addIslandObject(islandObject);
@@ -55,11 +55,11 @@ public class IslandMap {
     private IslandObject getRandomIslandObject() {
         IslandObjectType[] islandObjectTypes = IslandObjectType.values();
         IslandObjectType islandObjectType = islandObjectTypes[ThreadLocalRandom.
-                current().nextInt( islandObjectTypes.length)];
+                current().nextInt(islandObjectTypes.length)];
         return islandObjectsFactory.createIslandObject(islandObjectType);
     }
 
-    public Runnable createPlantGrow(){
+    public Runnable createPlantGrow() {
         return () -> {
             int coordinateX = ThreadLocalRandom.current().nextInt(getWidth());
             int coordinateY = ThreadLocalRandom.current().nextInt(getHeight());

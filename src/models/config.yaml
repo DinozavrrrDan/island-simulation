@@ -1,6 +1,7 @@
-widthMap: 100
-heightMap: 100
+widthMap: 10
+heightMap: 10
 maxIslandObjectsOnLocation: 10
 simulationCycles: 50
 reduceHealthPercent: 10
 initialCorePoolSize: 3
+maxNumberOfTact: 100

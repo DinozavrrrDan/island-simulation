@@ -14,4 +14,5 @@ public class SimulationSettings {
     private int simulationCycles;
     private int reduceHealthPercent;
     private int initialCorePoolSize;
+    private int maxNumberOfTact;
 }
