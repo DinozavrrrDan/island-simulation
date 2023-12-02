@@ -20,7 +20,7 @@ public class YAMLReaderImpl implements YAMLReader {
     public SimulationSettings readSimulationSettings() {
         SimulationSettings simulationSettings = null;
         try {
-            String pathToConfig = "src/com.dinozavrrr.models/config.yaml";
+            String pathToConfig = "src/com/dinozavrrr/models/config.yaml";
             simulationSettings = mapper.readValue(new FileReader(pathToConfig), SimulationSettings.class);
         } catch (IOException e) {
             System.out.println("error: Can not read file");
@@ -32,7 +32,7 @@ public class YAMLReaderImpl implements YAMLReader {
     public EatingMap readEatingMap() {
         EatingMap eatingMap = null;
         try {
-            String pathToEatingMap = "src/com.dinozavrrr.models/eating-chace-data.yaml";
+            String pathToEatingMap = "src/com/dinozavrrr/models/eating-chace-data.yaml";
             eatingMap = mapper.readValue(new FileReader(pathToEatingMap), EatingMap.class);
         } catch (IOException e) {
             System.out.println("error: Can not read file");

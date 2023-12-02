@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 public class IslandObjectsFactory {
 
-    public static final String CURRENT_PATH = "items";
-    public static final String PROPERTY_PATH = "src/com.dinozavrrr.models/animals.properties";
+    public static final String CURRENT_PATH = "com.dinozavrrr.items";
+    public static final String PROPERTY_PATH = "src/com/dinozavrrr/models/animals.properties";
     public static final String DOT = ".";
     private final Map<Class<?>, Object> islandObjectsMap = new HashMap<>();
 
