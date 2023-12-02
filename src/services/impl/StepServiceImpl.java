@@ -37,9 +37,11 @@ public class StepServiceImpl implements StepService {
     private static boolean canStepRight(Location location, IslandMap islandMap) {
         return location.getCoordinateY() < islandMap.getWidth() - 1;
     }
+
     private static boolean canStepDown(Location location, IslandMap islandMap) {
         return location.getCoordinateY() < islandMap.getHeight() - 1;
     }
+
     private static boolean canStepLeft(Location location) {
         return location.getCoordinateX() > 0;
     }

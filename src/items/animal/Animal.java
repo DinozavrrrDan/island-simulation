@@ -66,7 +66,7 @@ public abstract class Animal extends IslandObject {
                 .nextInt(Direction.values().length)];
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return healthPoints > 0;
     }
 

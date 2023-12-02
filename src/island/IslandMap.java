@@ -8,12 +8,14 @@ import lombok.Setter;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@Getter
 @Setter
 public class IslandMap {
     private final IslandObjectsFactory islandObjectsFactory;
+    @Getter
     private final int height;
+    @Getter
     private final int width;
+    @Getter
     private final Location[][] locations;
 
     public IslandMap(int height, int width) {
@@ -36,7 +38,7 @@ public class IslandMap {
         for (int coordinateY = 0; coordinateY < height; coordinateY++) {
             for (int coordinateX = 0; coordinateX < width; coordinateX++) {
                 for (int i = 0; i < maxIslandObjectCount; i++) {
-                    IslandObject islandObject = getRandomIslandObject();
+                    IslandObject islandObject = islandObjectsFactory.createRandomIslandObject();
 
                     var islandObjectAsString = islandObject.getClass().getSimpleName();
                     var islandObjectCountOnLocation = locations[coordinateY][coordinateX]
@@ -50,13 +52,6 @@ public class IslandMap {
                 }
             }
         }
-    }
-
-    private IslandObject getRandomIslandObject() {
-        IslandObjectType[] islandObjectTypes = IslandObjectType.values();
-        IslandObjectType islandObjectType = islandObjectTypes[ThreadLocalRandom.
-                current().nextInt(islandObjectTypes.length)];
-        return islandObjectsFactory.createIslandObject(islandObjectType);
     }
 
     public Runnable createPlantGrow() {

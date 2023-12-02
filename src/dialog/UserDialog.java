@@ -7,11 +7,12 @@ import simulation.SimulationSettings;
 import java.util.Scanner;
 
 public class UserDialog {
-    public UserDialog() {}
+    public UserDialog() {
+    }
 
     public SimulationSettings initSettings() {
-       SimulationSettings simulationSettings;
-        try (Scanner scanner = new Scanner(System.in)){
+        SimulationSettings simulationSettings;
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Island simulation");
             System.out.println("If you want to configure settings push \" \" :");
             YAMLReader configReader = new YAMLReaderImpl();

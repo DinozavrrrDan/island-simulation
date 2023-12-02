@@ -5,13 +5,14 @@ import island.Location;
 import items.IslandObject;
 import items.IslandObjectType;
 import items.IslandObjectsFactory;
+import items.animal.Actions;
 import items.animal.Animal;
 import items.animal.Direction;
 import items.animal.EatingMap;
 import services.ActionService;
 import services.HealthService;
-import services.YAMLReader;
 import services.StepService;
+import services.YAMLReader;
 
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ActionServiceImpl implements ActionService {
 
-   private final StepService stepService;
-   private final IslandMap islandMap;
-   private final EatingMap eatingMap;
-    private  final IslandObjectsFactory islandObjectsFactory;
+    private final StepService stepService;
+    private final IslandMap islandMap;
+    private final EatingMap eatingMap;
+    private final IslandObjectsFactory islandObjectsFactory;
     private final HealthService healthService;
 
     public ActionServiceImpl(IslandMap islandMap, HealthService healthService) {
@@ -35,7 +36,18 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public void doMove(Animal animal, Location location) {
+    public void doAction(Actions action, Animal animal, Location location) {
+        switch (action) {
+            case MOVE -> doMove(animal, location);
+            case EAT -> doEat(animal, location);
+            case REPRODUCE -> doReproduce(animal, location);
+            case SLEEP -> doSleep(animal);
+        }
+        healthService.reduceHealth(animal);
+    }
+
+
+    private void doMove(Animal animal, Location location) {
         int stepsCount = ThreadLocalRandom.current().nextInt(animal.getSpeed() + 1);
 
         while (stepsCount > 0) {
@@ -50,8 +62,7 @@ public class ActionServiceImpl implements ActionService {
         }
     }
 
-    @Override
-    public void doEat(Animal animal, Location location) {
+    private void doEat(Animal animal, Location location) {
         List<IslandObject> islandObjects = location.getIslandObjects();
         List<IslandObject> foodIslandObjects = islandObjects.stream()
                 .filter(foodIslandObject ->
@@ -68,8 +79,7 @@ public class ActionServiceImpl implements ActionService {
         }
     }
 
-    @Override
-    public void doReproduce(Animal animal, Location location) {
+    private void doReproduce(Animal animal, Location location) {
         String animalAsString = getSimpleClassName(animal);
         if (location.getIslandObjetsCount().get(animalAsString) >= animal.getMaxOnSquare()) {
             return;
@@ -80,8 +90,7 @@ public class ActionServiceImpl implements ActionService {
         }
     }
 
-    @Override
-    public void doSleep(Animal animal) {
+    private void doSleep(Animal animal) {
         healthService.increaseHealth(animal);
     }
 
@@ -90,7 +99,7 @@ public class ActionServiceImpl implements ActionService {
         return islandObject.getClass().getSimpleName().equals(eaIslandObject.getClass().getSimpleName());
     }
 
-    public boolean isEaten(Animal animal, IslandObject food){
+    public boolean isEaten(Animal animal, IslandObject food) {
         int chanceOfEatingFood = getEatableChanceIndex(animal, food);
         return ThreadLocalRandom.current().nextInt(100) < chanceOfEatingFood;
     }

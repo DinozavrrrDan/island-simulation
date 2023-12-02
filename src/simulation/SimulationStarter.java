@@ -18,7 +18,7 @@ public class SimulationStarter {
         UserDialog userDialog = new UserDialog();
         this.simulationSettings = userDialog.initSettings();
         IslandMap islandMap = new IslandMap(simulationSettings.getHeightMap(), simulationSettings.getWidthMap());
-        this.controller = new IslandController(islandMap,  simulationSettings);
+        this.controller = new IslandController(islandMap, simulationSettings);
         executorService = Executors.newScheduledThreadPool(simulationSettings.getInitialCorePoolSize());
     }
 
@@ -27,8 +27,8 @@ public class SimulationStarter {
         controller.getIslandMap().fill(simulationSettings.getMaxIslandObjectsOnLocation());
 
         executorService.scheduleWithFixedDelay(controller.getIslandStatistics().createShowStatsTask(),
-                100,
-                100,
+                10,
+                10,
                 TimeUnit.MILLISECONDS);
 
         executorService.scheduleWithFixedDelay(controller.createLifeCycle(),
@@ -40,8 +40,6 @@ public class SimulationStarter {
                 100,
                 100,
                 TimeUnit.MILLISECONDS);
-
-        System.out.println("s");
     }
 
 }

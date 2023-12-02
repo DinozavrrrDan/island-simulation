@@ -17,7 +17,7 @@ public class YAMLReaderImpl implements YAMLReader {
     }
 
     @Override
-    public SimulationSettings readSimulationSettings(){
+    public SimulationSettings readSimulationSettings() {
         SimulationSettings simulationSettings = null;
         try {
             String pathToConfig = "src/models/config.yaml";
@@ -29,12 +29,12 @@ public class YAMLReaderImpl implements YAMLReader {
     }
 
     @Override
-    public EatingMap readEatingMap(){
+    public EatingMap readEatingMap() {
         EatingMap eatingMap = null;
         try {
             String pathToEatingMap = "src/models/eating-chace-data.yaml";
             eatingMap = mapper.readValue(new FileReader(pathToEatingMap), EatingMap.class);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("error: Can not read file");
         }
         return eatingMap;

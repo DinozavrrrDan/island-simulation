@@ -1,7 +1,5 @@
 package items.animal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import lombok.Getter;
 
 import java.util.Map;

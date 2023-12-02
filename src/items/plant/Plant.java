@@ -1,7 +1,6 @@
 package items.plant;
 
 import items.IslandObject;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

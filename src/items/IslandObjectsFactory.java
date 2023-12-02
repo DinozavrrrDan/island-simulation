@@ -2,22 +2,16 @@ package items;
 
 import annotations.Parent;
 import annotations.Property;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import items.animal.herbivores.herbivoresMembers.*;
 import items.animal.carnivores.carnivoresMembers.*;
+import items.animal.herbivores.herbivoresMembers.*;
 import items.plant.plantsMembers.Grass;
 import lombok.SneakyThrows;
-import simulation.SimulationSettings;
 
 import java.io.*;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class IslandObjectsFactory {
 
@@ -83,7 +77,7 @@ public class IslandObjectsFactory {
 
     private static Class<?> getParentClass(Class<?> aClass) {
         Class<?> parentClass = aClass.getSuperclass();
-        while(!parentClass.isAnnotationPresent(Parent.class)){
+        while (!parentClass.isAnnotationPresent(Parent.class)) {
             parentClass = parentClass.getSuperclass();
             if (parentClass == null) {
                 throw new IllegalArgumentException();
@@ -91,6 +85,14 @@ public class IslandObjectsFactory {
         }
         return parentClass;
     }
+
+    public IslandObject createRandomIslandObject() {
+        IslandObjectType[] islandObjectTypes = IslandObjectType.values();
+        IslandObjectType islandObjectType = islandObjectTypes[ThreadLocalRandom.
+                current().nextInt(islandObjectTypes.length)];
+        return createIslandObject(islandObjectType);
+    }
+
 
     public IslandObject createIslandObject(IslandObjectType islandObjectIslandObjectType) {
         return switch (islandObjectIslandObjectType) {

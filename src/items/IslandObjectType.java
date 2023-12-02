@@ -1,21 +1,8 @@
 package items;
 
 
-import items.animal.carnivores.carnivoresMembers.Bear;
-import items.animal.carnivores.carnivoresMembers.Eagle;
-import items.animal.carnivores.carnivoresMembers.Fox;
-import items.animal.carnivores.carnivoresMembers.Wolf;
-import items.animal.carnivores.carnivoresMembers.Boa;
-import items.animal.carnivores.carnivoresMembers.Hog;
-import items.animal.herbivores.herbivoresMembers.Buffalo;
-import items.animal.herbivores.herbivoresMembers.Caterpillar;
-import items.animal.herbivores.herbivoresMembers.Deer;
-import items.animal.herbivores.herbivoresMembers.Duck;
-import items.animal.herbivores.herbivoresMembers.Goat;
-import items.animal.herbivores.herbivoresMembers.Horse;
-import items.animal.herbivores.herbivoresMembers.Mouse;
-import items.animal.herbivores.herbivoresMembers.Rabbit;
-import items.animal.herbivores.herbivoresMembers.Sheep;
+import items.animal.carnivores.carnivoresMembers.*;
+import items.animal.herbivores.herbivoresMembers.*;
 import items.plant.plantsMembers.Grass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

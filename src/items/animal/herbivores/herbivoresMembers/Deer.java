@@ -4,8 +4,6 @@ import annotations.IslandObject;
 import items.animal.Animal;
 import items.animal.herbivores.Herbivore;
 
-import javax.swing.*;
-
 @IslandObject(name = "deer")
 public class Deer extends Herbivore {
 

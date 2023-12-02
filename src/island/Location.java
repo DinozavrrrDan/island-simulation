@@ -12,10 +12,10 @@ import java.util.Map;
 
 @Getter
 public class Location {
-    private int coordinateX;
-    private int coordinateY;
-    private List<IslandObject> islandObjects;
-    private Map<String, Integer> islandObjetsCount;
+    private final int coordinateX;
+    private final int coordinateY;
+    private final List<IslandObject> islandObjects;
+    private final Map<String, Integer> islandObjetsCount;
 
     public Location(int coordinateX, int coordinateY) {
         this.coordinateX = coordinateX;

@@ -1,6 +1,5 @@
 package items.animal.carnivores;
 
-import items.IslandObject;
 import items.animal.Animal;
 
 public abstract class Carnivore extends Animal {

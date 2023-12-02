@@ -3,7 +3,6 @@ package services.impl;
 import items.animal.Animal;
 import services.HealthService;
 import simulation.SimulationSettings;
-import simulation.SimulationStarter;
 
 public class HealthServiceImpl implements HealthService {
 

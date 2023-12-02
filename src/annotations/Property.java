@@ -9,7 +9,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Property {
     String propertyName();
+
     String defaultValue() default "";
+
     int priority();
 
     String type();

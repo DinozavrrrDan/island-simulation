@@ -5,6 +5,7 @@ import simulation.SimulationSettings;
 
 public interface YAMLReader {
     public SimulationSettings readSimulationSettings();
+
     public EatingMap readEatingMap();
 
 }

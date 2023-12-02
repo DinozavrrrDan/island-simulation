@@ -1,6 +1,5 @@
 package island;
 
-import items.IslandStatistics;
 import items.animal.Actions;
 import items.animal.Animal;
 import lombok.Getter;
@@ -49,13 +48,11 @@ public class IslandController {
 
                 }
                 int currentTact = TACT_NUMBER.getAndIncrement();
-
                 if (isEndLifeCycle(currentTact)) {
                     stopSimulation();
                 }
             }
         };
-
     }
 
     private boolean isEndLifeCycle(int currentTact) {
@@ -75,20 +72,9 @@ public class IslandController {
                     continue;
                 }
                 Actions actions = animal.chooseAction();
-                doAction(actions, animal, location);
+                actionService.doAction(actions, animal, location);
             }
         };
-
-    }
-
-    private void doAction(Actions action, Animal animal, Location location) {
-        switch (action) {
-            case MOVE -> actionService.doMove(animal, location);
-            case EAT -> actionService.doEat(animal, location);
-            case REPRODUCE -> actionService.doReproduce(animal, location);
-            case SLEEP -> actionService.doSleep(animal);
-        }
-        healthService.reduceHealth(animal);
     }
 
 }
