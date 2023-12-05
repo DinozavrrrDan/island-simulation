@@ -9,6 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class SimulationStarter {
+    public static final int INITIAL_DELAY = 100;
+    public static final int DELAY = 100;
     private final SimulationSettings simulationSettings;
     private final IslandController controller;
     public static ScheduledExecutorService executorService;
@@ -28,19 +30,19 @@ public class SimulationStarter {
         controller.getIslandMap().fill(simulationSettings.getMaxIslandObjectsOnLocation());
 
         executorService.scheduleWithFixedDelay(controller.getIslandStatistics().createShowStatsTask(),
-                100,
-                100,
+                INITIAL_DELAY,
+                DELAY,
                 TimeUnit.MILLISECONDS);
 
         executorService.scheduleWithFixedDelay(controller.createLifeCycle(),
-                100,
-                100,
+                INITIAL_DELAY,
+                DELAY,
                 TimeUnit.MILLISECONDS);
 
-//        executorService.scheduleWithFixedDelay(controller.getIslandMap().createPlantGrow(),
-//                100,
-//                100,
-//                TimeUnit.MILLISECONDS);
+        executorService.scheduleWithFixedDelay(controller.getIslandMap().createPlantGrow(),
+                INITIAL_DELAY,
+                DELAY,
+                TimeUnit.MILLISECONDS);
     }
 
 }

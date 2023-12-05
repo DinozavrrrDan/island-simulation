@@ -18,6 +18,7 @@ public class IslandObjectsFactory {
     public static final String CURRENT_PATH = "com.dinozavrrr.items";
     public static final String PROPERTY_PATH = "src/com/dinozavrrr/models/animals.properties";
     public static final String DOT = ".";
+    public static final String JAVA_LANG = "java.lang.";
     private final Map<Class<?>, Object> islandObjectsMap = new HashMap<>();
 
     @SneakyThrows
@@ -54,7 +55,7 @@ public class IslandObjectsFactory {
 
             for (int i = 0; i < fieldsMap.size(); i++) {
                 String type = typesMap.get(i);
-                Class<?> clazz = Class.forName("java.lang." + type);
+                Class<?> clazz = Class.forName(JAVA_LANG + type);
                 constructorArray[i] = clazz;
             }
 
@@ -127,7 +128,7 @@ public class IslandObjectsFactory {
         var packageReader = getPackageBufferedReader(packageName);
         var packages = packageReader.lines()
                 .filter(line -> !line.endsWith(".class"))
-                .map(line -> findAllClassesUsingClassLoader(packageName + '.' + line))
+                .map(line -> findAllClassesUsingClassLoader(packageName + IslandObjectsFactory.DOT + line))
                 .collect(Collectors.toSet());
 
         var totalClasses = packages.stream()
