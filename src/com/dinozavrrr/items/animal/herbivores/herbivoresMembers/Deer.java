@@ -11,8 +11,4 @@ public class Deer extends Herbivore {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 
-    @Override
-    public Animal reproduce() {
-        return new Deer(1.0, 1, 1, 1.0, "");
-    }
 }

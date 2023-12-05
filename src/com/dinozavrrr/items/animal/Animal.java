@@ -43,8 +43,6 @@ public abstract class Animal extends IslandObject {
         this.healthPoints = healthPoints;
     }
 
-    public abstract Animal reproduce();
-
     public void eat(IslandObject food) {
         if (food.getWeight() >= this.getEnoughFoodForFullSaturation()) {
             this.setHealthPoints(this.getEnoughFoodForFullSaturation());

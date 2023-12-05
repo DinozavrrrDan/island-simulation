@@ -11,8 +11,4 @@ public class Fox extends Carnivore {
         super(weight, maxOnSquare, speed, enoughFoodForFullSaturation, unicode);
     }
 
-    @Override
-    public Animal reproduce() {
-        return null;
-    }
 }
