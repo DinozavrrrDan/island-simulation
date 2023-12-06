@@ -1,1 +1,1 @@
-"# island-simulation" 
+"# com.dinozavrrr.island-com.dinozavrrr.simulation" 
