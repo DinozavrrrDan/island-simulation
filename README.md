@@ -1,1 +1,3 @@
-"# com.dinozavrrr.island-com.dinozavrrr.simulation" 
+
+Симуляция острова с использованием многопоточности 
+
